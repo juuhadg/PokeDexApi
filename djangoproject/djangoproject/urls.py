@@ -1,0 +1,9 @@
+from django.contrib import admin
+from django.urls import path, include
+
+urlpatterns = [
+    path('admin/', admin.site.urls),
+    path('users/',include('djangoapp.urls')),
+    path('pokemon/',include('djangoapp.urlsPoke'))
+]
+
