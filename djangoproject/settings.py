@@ -76,6 +76,7 @@ WSGI_APPLICATION = 'djangoproject.wsgi.application'
 
 
 from decouple import config
+import dj_database_url
 # Database
 # https://docs.djangoproject.com/en/5.0/ref/settings/#databases
 PG_PASSWORD = config('PG_PASSWORD')
@@ -90,6 +91,10 @@ DATABASES = {
         'PORT' : config('PG_PORT','5432')
     }
 }
+
+url_do_banco_de_dados = config('DB_URL')
+db_from_env = dj_database_url.config(default=config('DB_URL'), conn_max_age=600)
+DATABASES['default'].update(db_from_env)
 
 
 # Password validation

@@ -7,4 +7,5 @@ urlpatterns = [
     path('get/<str:id>',pokemon_views.getOnePokemon),
     path('delete/<str:id>',pokemon_views.deletePokemon),
     path('update/<str:id>',pokemon_views.updatePokemon),
+    path('encher',pokemon_views.encherPokemons),
 ]

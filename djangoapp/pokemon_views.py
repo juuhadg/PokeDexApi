@@ -7,6 +7,8 @@ from rest_framework import status
 from utils import deleteImage
 import json
 from django.http import QueryDict
+import requests
+from io import BytesIO
 
 
 @api_view(['POST'])
@@ -22,7 +24,12 @@ def postPokemon(request):
 
     new_data = request.data.copy()
     new_data['image'] = url
+    if 'types' in new_data and ',' in new_data['types']:
+        typesArray = new_data['types'].split(',')
+        new_data['types'] = typesArray
+    
 
+    print(new_data)
     serializer = PokemonSerializer(data=new_data)
     if serializer.is_valid():
         serializer.save()
@@ -86,3 +93,35 @@ def deletePokemon(request,id):
     deleteImage.delete_image_from_s3(pokemon.image,'pokemonbucketjuuh')
     return Response(f"Pokemon {pokemon.name} Deletado com sucesso",status=status.HTTP_200_OK)
     
+
+@api_view(['GET'])
+def encherPokemons(request):
+    for i in range(2, 21):
+        response = requests.get(f'https://pokeapi.co/api/v2/pokemon/{i}/').text
+        json_data = json.loads(response)
+        response = json_data
+        
+        print(response)
+        
+        url = f'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/{response.get("id")}.png'
+        imagem = requests.get(url)
+
+        if imagem.status_code == 200:
+            form = {}
+            form['name'] = response.get('name')
+            form['types'] = response.get('types[0].type.name')
+            form['height'] = response.get('height')
+            form['weight'] = response.get('weight')
+
+            # Configurar o arquivo da imagem corretamente
+            form_files = {'image': (f'{response.get("name")}.png', BytesIO(imagem.content))}
+
+            # Enviar a requisição POST com o formulário e o arquivo
+            salvarNoBanco = requests.post('http://127.0.0.1:8000/pokemon/create', data=form, files=form_files)
+            
+            print(salvarNoBanco.text)
+        else:
+            print('Erro ao baixar a imagem. Código de status:', imagem.status_code)
+
+
+    return Response(f"sucesso",status=status.HTTP_200_OK)
