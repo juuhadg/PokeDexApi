@@ -5,8 +5,8 @@ from django.core.files.uploadedfile import InMemoryUploadedFile
 from io import BytesIO
 from decouple import config
 
-AWS_ACCESS_KEY_ID=config('AWS_ACCESS_KEY_ID', "")
-AWS_SECRET_ACCESS_KEY=config('AWS_SECRET_ACCESS_KEY', "")
+AWS_ACCESS_KEY_ID=config('KEY_ACESSO_AWS', "")
+AWS_SECRET_ACCESS_KEY=config('KEY_SECRETA_ACESSO_AWS', "")
 
 def upload_image_to_s3(image: InMemoryUploadedFile, bucket_name: str, folder_path: str) -> str: 
     # Configuração do cliente S3

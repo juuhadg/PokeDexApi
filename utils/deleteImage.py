@@ -4,8 +4,8 @@ from io import BytesIO
 from decouple import config
 from urllib.parse import urlparse
 
-AWS_ACCESS_KEY_ID=config('AWS_ACCESS_KEY_ID', "")
-AWS_SECRET_ACCESS_KEY=config('AWS_SECRET_ACCESS_KEY', "")
+AWS_ACCESS_KEY_ID=config('KEY_ACESSO_AWS', "")
+AWS_SECRET_ACCESS_KEY=config('KEY_SECRETA_ACESSO_AWS', "")
 
 def delete_image_from_s3(url:str, bucket_name: str) -> str:
     try:
