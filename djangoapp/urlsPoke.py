@@ -8,4 +8,5 @@ urlpatterns = [
     path('delete/<str:id>',pokemon_views.deletePokemon),
     path('update/<str:id>',pokemon_views.updatePokemon),
     path('encher',pokemon_views.encherPokemons),
+    path('uploadImg',pokemon_views.enviarImgEndPoint),
 ]
