@@ -149,7 +149,7 @@ def encherPokemons(request):
             form_files = {'image': (f'{response.get("name")}.png', BytesIO(imagem.content))}
 
            
-           # urlImg = requests.post('http://127.0.0.1:8000/pokemon/uploadImg', files=form_files).text
+            urlImg = requests.post('http://127.0.0.1:8000/pokemon/uploadImg', files=form_files).text
     
             if not urlImg:
                 return Response("Ocorreu um erro ao fazer upload da Imagem", status=status.HTTP_500_INTERNAL_SERVER_ERROR)
@@ -162,5 +162,5 @@ def encherPokemons(request):
 
     print(listaForms)
     pokemons_instancias = [Pokemon(**dados_pokemon) for dados_pokemon in listaForms]
-    #Pokemon.objects.bulk_create(pokemons_instancias)
+    Pokemon.objects.bulk_create(pokemons_instancias)
     return Response(f"sucesso",status=status.HTTP_200_OK)
